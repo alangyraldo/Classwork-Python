@@ -5,7 +5,7 @@ from ia import api_ia
 # ✅ Abre el archivo que contiene la pregunta a resolver
 # En este caso, se accede a datos/problema1.txt, que debe contener una pregunta algorítmica en texto plano
 # El modo "r" indica modo lectura, y encoding="utf-8" asegura compatibilidad con caracteres especiales
-with open("datos/problema1.txt", "r", encoding="utf-8") as f:
+with open("datos/reto1.txt", "r", encoding="utf-8") as f:
     # Lee todo el contenido del archivo y elimina espacios en blanco al inicio y final
     pregunta = f.read().strip()
 

@@ -1,0 +1,13 @@
+## Búsqueda informada
+
+Implemente un escenario de un grafo con nodos y aristas ponderadas, donde los costos de las aristas pueden variar aleatoriamente.
+
+Objetivo:
+- Defina un nodo de inicio y un nodo final.
+- Implemente el algoritmo de **Dijkstra** y el algoritmo de **A\*** para encontrar el camino más óptimo entre ambos nodos.
+- Compare los resultados de ambos algoritmos mostrando:
+  - El camino encontrado.
+  - El costo total del camino.
+  - La cantidad de nodos expandidos por cada algoritmo.
+
+La comparación y los resultados deben imprimirse **solo en consola**, sin gráficos.

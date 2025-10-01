@@ -1,0 +1,14 @@
+Caníbales y misioneros
+
+Tres misioneros y tres caníbales deben cruzar un río usando un bote que puede llevar una o dos personas. Las restricciones son:
+1. Si en algún lado hay misioneros, nunca pueden ser superados en número por los caníbales.
+2. El bote no puede cruzar vacío.
+
+Objetivo: modelar este problema como un problema de búsqueda y resolverlo con **BFS (Búsqueda en Anchura)** y **DFS (Búsqueda en Profundidad)**.
+
+Instrucciones:
+- Construye una clase `SearchProblem` que modele el problema.
+- Construye una clase `Node` para representar cada estado (quiénes están a cada lado del río).
+- Implementa BFS y DFS para resolver el problema.
+- Muestra en consola el camino de solución y la **cantidad de nodos expandidos por cada algoritmo**.
+- Compara cuál de los dos algoritmos expandió menos nodos.

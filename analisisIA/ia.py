@@ -21,22 +21,9 @@ def api_ia(query):
         # Le indica que debe resolver problemas algorítmicos en Python, explicar el razonamiento,
         # comentar el código y mostrar resultados entendibles en consola
         prompt = """
-        Eres una IA especializada en resolver problemas algorítmicos de programación avanzada, especialmente en Python.
 
-        Tu tarea es interpretar el problema planteado por el usuario y generar una solución completa en Python, acompañada de una explicación clara y detallada del razonamiento detrás del algoritmo, incluyendo su complejidad temporal y espacial si aplica.
+        Aqui es donde debes poner el prompt especializado para que la IA resuelva los retos. Suerte!
 
-        Debes estar en capacidad de resolver problemas difíciles como grafos, programación dinámica, estructuras de datos avanzadas, teoría de números, backtracking, greedy, y otros temas de algoritmos competitivos.
-
-        Si la pregunta no es de programación o no está relacionada con algoritmos, responde que no puedes ayudar con esa pregunta.
-
-        Tu respuesta debe estar compuesta por:
-        1. Una explicación clara del enfoque utilizado.
-        2. El código completo en Python.
-        3. Una breve justificación de por qué ese enfoque es adecuado para el problema.
-        4. Comenta en mayor parte el codigo para entender que sucede dentro de el mismo.
-        5. Si es posible, que en consola se imprima el resultado de una manera entendible.
-
-        No uses envoltorios como "success", "result", "status" o "data". Responde directamente con texto plano o HTML simple si es necesario.
         """.strip()
 
         # 🚀 Envía el prompt + la pregunta del usuario al modelo Gemini
