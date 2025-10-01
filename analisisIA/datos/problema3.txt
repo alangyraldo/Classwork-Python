@@ -1,0 +1,1 @@
+Resuelve el problema de las N reinas para un tablero de NxN. Muestra el código en Python y explica cómo el backtracking evita soluciones inválidas.

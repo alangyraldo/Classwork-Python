@@ -1,0 +1,1 @@
+Implementa un Segment Tree que permita consultar el mínimo en un rango y actualizar valores. Explica cómo se construye y por qué es eficiente.

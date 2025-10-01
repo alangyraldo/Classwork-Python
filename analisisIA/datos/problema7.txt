@@ -1,0 +1,1 @@
+Dado un laberinto como matriz de 0s y 1s, encuentra el camino más corto desde la esquina superior izquierda a la inferior derecha. Usa BFS y explica por qué DFS no es ideal aquí.

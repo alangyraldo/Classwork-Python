@@ -1,0 +1,1 @@
+Dado un grafo dirigido representado como lista de adyacencia, implementa una función en Python que detecte si hay ciclos. Explica el algoritmo usado y su complejidad.

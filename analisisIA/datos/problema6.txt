@@ -1,0 +1,1 @@
+Dado un conjunto de intervalos con inicio y fin, selecciona el máximo número de intervalos no solapados. Usa un enfoque greedy y justifica por qué funciona.

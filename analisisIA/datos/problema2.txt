@@ -1,0 +1,136 @@
+Dado un arreglo de enteros y un número objetivo, determina si existe un subconjunto cuya suma sea exactamente igual al objetivo. Usa programación dinámica y explica por qué.
+
+### 1. Explicación del enfoque: Programación Dinámica
+
+El problema nos pide determinar si existe un subconjunto de un arreglo dado de enteros cuya suma sea exactamente igual a un número objetivo.
+
+Utilizaremos un enfoque de programación dinámica para resolver este problema. La idea principal es construir una tabla (generalmente una matriz booleana) donde cada celda `dp[i][j]` representará si es posible formar una suma `j` utilizando los primeros `i` elementos del arreglo de entrada.
+
+La tabla `dp` tendrá dimensiones `(n+1) x (target+1)`, donde `n` es el número de elementos en el arreglo y `target` es el número objetivo.
+
+Los estados de la tabla se definirán de la siguiente manera:
+*   `dp[i][j]` será `True` si se puede obtener una suma `j` utilizando un subconjunto de los primeros `i` elementos del arreglo.
+*   `dp[i][j]` será `False` en caso contrario.
+
+**Casos Base:**
+
+*   `dp[0][0] = True`: Es posible formar una suma de 0 (el subconjunto vacío) utilizando 0 elementos.
+*   `dp[i][0] = True` para todo `i` de 1 a `n`: Siempre es posible formar una suma de 0 (con el subconjunto vacío), independientemente de cuántos elementos tengamos disponibles.
+*   `dp[0][j] = False` para todo `j` de 1 a `target`: No es posible formar una suma positiva `j` si no tenemos ningún elemento disponible.
+
+**Relación de Recurrencia:**
+
+Para cada elemento `i` del arreglo (donde `i` va de 1 a `n`) y para cada suma `j` (donde `j` va de 1 a `target`), tenemos dos posibilidades al considerar el `i`-ésimo elemento (llamémoslo `arr[i-1]` ya que el arreglo está indexado desde 0):
+
+1.  **No incluir el `i`-ésimo elemento:** Si no incluimos el `i`-ésimo elemento, la posibilidad de formar la suma `j` depende de si ya era posible formar la suma `j` utilizando los primeros `i-1` elementos. Por lo tanto, `dp[i][j]` será `True` si `dp[i-1][j]` es `True`.
+
+2.  **Incluir el `i`-ésimo elemento:** Si incluimos el `i`-ésimo elemento (`arr[i-1]`), esto solo es posible si el valor de este elemento no excede la suma actual `j` (`arr[i-1] <= j`). Si podemos incluirlo, entonces necesitamos verificar si era posible formar la suma restante (`j - arr[i-1]`) utilizando los primeros `i-1` elementos. Por lo tanto, `dp[i][j]` será `True` si `dp[i-1][j - arr[i-1]]` es `True` y `arr[i-1] <= j`.
+
+Combinando estas dos posibilidades, la relación de recurrencia es:
+
+`dp[i][j] = dp[i-1][j] OR (dp[i-1][j - arr[i-1]] if arr[i-1] <= j else False)`
+
+La solución final se encontrará en `dp[n][target]`.
+
+### 2. Código completo en Python
+
+```python
+def has_subset_sum(arr, target):
+    """
+    Determina si existe un subconjunto en 'arr' cuya suma sea exactamente igual a 'target'.
+
+    Args:
+        arr (list[int]): Una lista de enteros.
+        target (int): El número objetivo.
+
+    Returns:
+        bool: True si existe un subconjunto con la suma objetivo, False en caso contrario.
+    """
+    n = len(arr)  # Obtenemos la longitud del arreglo de entrada.
+
+    # Creamos una tabla de programación dinámica.
+    # dp[i][j] será True si es posible obtener la suma 'j' usando los primeros 'i' elementos de 'arr'.
+    # Las dimensiones son (n+1) x (target+1).
+    dp = [[False for _ in range(target + 1)] for _ in range(n + 1)]
+
+    # Caso base 1: Si el objetivo es 0, siempre podemos lograrlo con un subconjunto vacío.
+    # Esto significa que para cualquier número de elementos (filas 0 a n),
+    # la suma 0 se puede lograr.
+    for i in range(n + 1):
+        dp[i][0] = True
+
+    # Caso base 2: Si no tenemos elementos (fila 0) y el objetivo es mayor que 0,
+    # no podemos lograr ninguna suma positiva.
+    # Esto ya está inicializado a False por defecto en la creación de la lista,
+    # pero es importante entenderlo conceptualmente.
+    # for j in range(1, target + 1):
+    #     dp[0][j] = False
+
+    # Llenamos la tabla de programación dinámica.
+    # Iteramos a través de cada elemento del arreglo (desde el primero hasta el n-ésimo).
+    for i in range(1, n + 1):
+        # Para cada elemento, iteramos a través de todas las sumas posibles desde 1 hasta el target.
+        for j in range(1, target + 1):
+            # Opción 1: No incluir el elemento actual (arr[i-1]) en el subconjunto.
+            # Si no incluimos el elemento actual, la posibilidad de alcanzar la suma 'j'
+            # depende de si ya era posible alcanzar la suma 'j' usando los 'i-1' elementos anteriores.
+            dp[i][j] = dp[i - 1][j]
+
+            # Opción 2: Incluir el elemento actual (arr[i-1]) en el subconjunto,
+            # solo si el valor del elemento no excede la suma objetivo actual 'j'.
+            current_element = arr[i - 1]
+            if current_element <= j:
+                # Si incluimos el elemento actual, necesitamos verificar si era posible
+                # alcanzar la suma restante (j - current_element) usando los 'i-1' elementos anteriores.
+                # Usamos el operador OR lógico (|=) porque si alguna de las opciones (incluir o no incluir)
+                # nos permite alcanzar la suma 'j', entonces dp[i][j] debe ser True.
+                dp[i][j] = dp[i][j] or dp[i - 1][j - current_element]
+
+    # El resultado final se encuentra en dp[n][target], que indica si es posible
+    # alcanzar la suma 'target' utilizando todos los 'n' elementos del arreglo.
+    return dp[n][target]
+
+# --- Ejemplos de uso ---
+arr1 = [3, 34, 4, 12, 5, 2]
+target1 = 9
+print(f"Arreglo: {arr1}, Objetivo: {target1}")
+print(f"¿Existe subconjunto con suma {target1}? {has_subset_sum(arr1, target1)}") # Salida esperada: True (4 + 5)
+
+arr2 = [3, 34, 4, 12, 5, 2]
+target2 = 30
+print(f"\nArreglo: {arr2}, Objetivo: {target2}")
+print(f"¿Existe subconjunto con suma {target2}? {has_subset_sum(arr2, target2)}") # Salida esperada: False
+
+arr3 = [1, 2, 3, 4, 5]
+target3 = 10
+print(f"\nArreglo: {arr3}, Objetivo: {target3}")
+print(f"¿Existe subconjunto con suma {target3}? {has_subset_sum(arr3, target3)}") # Salida esperada: True (1 + 2 + 3 + 4 o 1 + 4 + 5 o 2 + 3 + 5)        
+
+arr4 = [10, 20, 30]
+target4 = 0
+print(f"\nArreglo: {arr4}, Objetivo: {target4}")
+print(f"¿Existe subconjunto con suma {target4}? {has_subset_sum(arr4, target4)}") # Salida esperada: True (subconjunto vacío)
+
+arr5 = [1, 5, 11, 5]
+target5 = 11
+print(f"\nArreglo: {arr5}, Objetivo: {target5}")
+print(f"¿Existe subconjunto con suma {target5}? {has_subset_sum(arr5, target5)}") # Salida esperada: True (11 o 5 + 5 + 1)
+```
+
+### 3. Justificación del enfoque
+
+La programación dinámica es un enfoque muy adecuado para este problema por las siguientes razones:
+
+*   **Subproblemas superpuestos:** Al intentar construir una suma, nos encontramos repetidamente con la necesidad de saber si una suma menor era posible utilizando un subconjunto de los elementos anteriores. Por ejemplo, para saber si podemos formar la suma 9 con `[3, 4, 5]`, necesitamos saber si podíamos formar la suma 6 (si incluimos 3), la suma 5 (si incluimos 4), o la suma 4 (si incluimos 5). Estos subproblemas se resuelven y sus resultados se reutilizan.
+*   **Subestructura óptima:** La solución al problema general (formar `target` con `n` elementos) puede construirse a partir de las soluciones de subproblemas más pequeños (formar sumas menores con menos elementos). Si podemos formar la suma `j` con los primeros `i` elementos, esto es cierto si podíamos formar `j` con los primeros `i-1` elementos, O si podíamos formar `j - arr[i-1]` con los primeros `i-1` elementos y luego incluir `arr[i-1]`.
+*   **Evitar recalcular:** Al almacenar los resultados de los subproblemas en la tabla `dp`, evitamos recalcular la misma información una y otra vez, lo que conduciría a una complejidad exponencial en un enfoque recursivo ingenuo.
+
+Este enfoque garantiza que todas las combinaciones posibles de subconjuntos se consideren de manera eficiente.
+
+### Complejidad del Algoritmo:
+
+*   **Complejidad Temporal:** La complejidad temporal es **O(n * target)**, donde `n` es el número de elementos en el arreglo y `target` es el número objetivo. Esto se debe a que necesitamos llenar una tabla de `(n+1) x (target+1)`, y cada celda se calcula en tiempo constante.
+
+*   **Complejidad Espacial:** La complejidad espacial es **O(n * target)**, debido al espacio requerido para almacenar la tabla `dp`.
+
+    *Nota: Es posible optimizar el espacio a O(target) utilizando solo dos filas (la fila actual y la anterior) o incluso una sola fila, ya que para calcular la fila actual solo necesitamos la información de la fila anterior. Sin embargo, la versión de dos dimensiones es más fácil de entender conceptualmente para explicar el problema.*

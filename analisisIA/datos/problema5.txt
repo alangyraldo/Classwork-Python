@@ -1,0 +1,1 @@
+Implementa la Criba de Eratóstenes para encontrar todos los números primos menores a N. Explica por qué es más eficiente que verificar cada número individualmente.Dado un conjunto de intervalos con inicio y fin, selecciona el máximo número de intervalos no solapados. Usa un enfoque greedy y justifica por qué funciona.
